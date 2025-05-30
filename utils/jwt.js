@@ -10,7 +10,7 @@ export async function generateToken(usuario) {
     }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
 }
 
-export async function verifyToken(token) {
+export function verifyToken(token) {
     try {
         return jwt.verify(token, process.env.JWT_SECRET);
     } catch (error) {
