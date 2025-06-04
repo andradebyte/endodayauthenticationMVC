@@ -3,7 +3,7 @@ import { criarUsuario, deletarUsuario, novoNomeUsuario, novoEmailUsuario, novaSe
 
 const router = express.Router();
 
-router.post('/', criarUsuario);
+router.post('/cadastrar', criarUsuario);
 router.delete('/:usuario_id', deletarUsuario);
 router.put('/nome', novoNomeUsuario);
 router.put('/email', novoEmailUsuario);
