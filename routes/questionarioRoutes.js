@@ -4,6 +4,6 @@ import { questionarioRandom, questionario } from '../controllers/questionarioCon
 const router = express.Router();
 
 router.get('/random/:caminho', questionarioRandom);
-router.get('/:dificuldade/:caminho', questionario);
+router.post('/:usuario_id/:dificuldade/:caminho', questionario);
 
 export default router;
