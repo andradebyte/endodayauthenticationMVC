@@ -86,7 +86,7 @@ export default class AuthModel {
             const [rows] = await pool.execute('SELECT token FROM emails_token WHERE email = ? AND expires_at > NOW()', [novoEmail]);
 
             if (rows.length === 0) {
-                return res.status(401).json({ ok: false, error: 'Token inválido ou expirado' });
+                return { ok: false, error: 'Token inválido ou expirado' };
             }
 
             const tokenCriptografado = rows[0].token;
@@ -95,10 +95,10 @@ export default class AuthModel {
             if (!isTokenValido) return { ok: false, error: 'Token inválido ou expirado' };
 
             // Deleta o token após uso
-            await pool.execute('DELETE FROM emails_token WHERE email = ?', [novoEmail]);
+            // await pool.execute('DELETE FROM emails_token WHERE email = ?', [novoEmail]);
 
             // Se o token for válido, leve-o para a página de redefinição de senha
-            return res.status(401).json({ mensagem: 'Token válido', ok: true });
+            return { mensagem: 'Token válido', ok: true, token: token };
         } catch (error) {
             console.error(error);
             return { ok: false, mensagem: 'Erro no servidor, tente novamente.' };
@@ -139,7 +139,7 @@ export default class AuthModel {
             const [rows] = await pool.execute('SELECT token FROM senhas_token WHERE email = ? AND expires_at > NOW()', [email]);
 
             if (rows.length === 0) {
-                return res.status(401).json({ error: 'Token inválido ou expirado' });
+                return { error: 'Token inválido ou expirado' }
             }
 
             const tokenCriptografado = rows[0].token;
@@ -147,11 +147,11 @@ export default class AuthModel {
 
             if (!isTokenValido) return { error: 'Token inválido ou expirado' };
 
-            // Deleta o token após uso
-            await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
+            // // Deleta o token após uso
+            // await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
 
             // Se o token for válido, leve-o para a página de redefinição de senha
-            return res.status(401).json({ mensagem: 'Token válido', tokenValido: true });
+            return { mensagem: 'Token válido', tokenValido: true }
         } catch (error) {
             console.error(error);
             return { error: 'Erro no servidor, tente novamente.' };
