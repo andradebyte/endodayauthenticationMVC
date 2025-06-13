@@ -1,7 +1,7 @@
 import { hashPassword } from '../utils/hash.js';
 import pool from '../config/db.js';
 import { mandarEmail } from '../utils/mandarEmail.js';
-import { verifyToken } from '../utils/jwt.js';
+//import { verifyToken } from '../utils/jwt.js';
 
 
 export default class UsuarioModel {
@@ -39,7 +39,6 @@ export default class UsuarioModel {
             if (result.affectedRows === 0) {
                 return { error: 'Usuário não encontrado' };
             }
-
             return { message: 'Conta deletada com sucesso' };
         } catch (error) {
             console.error('Erro ao deletar conta:', error);
@@ -51,14 +50,7 @@ export default class UsuarioModel {
 
     static async novoNome(usuario) {
 
-        const { usuario_id, nome_completo, token } = usuario;
-        
-        const tokenVerificado = verifyToken(token);
-
-        if (!tokenVerificado) {
-            console.error('Erro ao atualizar nome.');
-            return { error: 'Erro ao atualizar nome.' };
-        }
+        const { usuario_id, nome_completo } = usuario;
 
         const query = 'UPDATE usuarios SET nome_completo = ? WHERE usuario_id = ?';
 

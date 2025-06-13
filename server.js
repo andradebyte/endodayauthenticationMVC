@@ -1,9 +1,9 @@
-import { verifyToken } from './utils/jwt.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import questionarioRoutes from './routes/questionarioRoutes.js';
 import express from 'express';
 import cors from 'cors';
+
 
 const PORT = 9323;
 
