@@ -71,7 +71,7 @@ export default class UsuarioModel {
     // Atualiza o email do usuário, verificando se o email já está em uso
 
     static async novaEmail(usuario) {
-        const { usuario_id, email, verifyToken } = usuario;
+        const { usuario_id, email } = usuario;
 
         const query = 'UPDATE usuarios SET email = ? WHERE usuario_id = ?';
 
@@ -113,7 +113,7 @@ export default class UsuarioModel {
             if (result.affectedRows === 0) {
                 return { error: 'Usuário não encontrado ou senha já está em uso' };
             }
-
+            
             return { message: 'Senha atualizada com sucesso' };
 
         } catch (error) {

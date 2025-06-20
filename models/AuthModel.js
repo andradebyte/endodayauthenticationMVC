@@ -69,7 +69,7 @@ export default class AuthModel {
             await pool.execute('INSERT INTO emails_token (email, token, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?, expires_at = ?', [novoEmail, tokenCriptografado, expires_at, tokenCriptografado, expires_at]);
 
             await mandarEmail(novoEmail, subject, html);
-            return { ok: true, mensagem: 'Email enviado com sucesso!' };
+            return 'Email enviado com sucesso!';
         } catch (error) {
             console.error('Erro ao enviar e-mail:', error);
             return { error: 'Erro ao enviar e-mail' };
@@ -92,7 +92,13 @@ export default class AuthModel {
             const tokenCriptografado = rows[0].token;
             const isTokenValido = await bcrypt.compare(token, tokenCriptografado);
 
-            if (!isTokenValido) return { ok: false, error: 'Token inválido ou expirado' };
+            if (rows.length === 0) {
+                return { error: 'Token inválido ou expirado' };
+            }
+
+            if (!isTokenValido) {
+                return { error: 'Token inválido ou expirado' };
+            }
 
             // Deleta o token após uso
             // await pool.execute('DELETE FROM emails_token WHERE email = ?', [novoEmail]);
@@ -101,7 +107,7 @@ export default class AuthModel {
             return { mensagem: 'Token válido', ok: true, token: token };
         } catch (error) {
             console.error(error);
-            return { ok: false, mensagem: 'Erro no servidor, tente novamente.' };
+            return { error: 'Erro no servidor, tente novamente.' };
         }
     }
 

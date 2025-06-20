@@ -4,7 +4,6 @@ import questionarioRoutes from './routes/questionarioRoutes.js';
 import express from 'express';
 import cors from 'cors';
 
-
 const PORT = 9323;
 
 const app = express();

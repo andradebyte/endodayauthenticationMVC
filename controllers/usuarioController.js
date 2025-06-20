@@ -63,13 +63,13 @@ export const novoEmailUsuario = async (req, res) => {
         }
 
         // Enviar email de confirmação
-        await mandarEmail(usuario.email, 'Cadastro realizado com sucesso!',
+        await mandarEmail(usuario.email, 'Email redefinido com sucesso!',
             `<h1>Email redefinido com sucesso!</h1><p>Olá, seu email foi redefinido com sucesso!</p>`
         ).catch((err) => {
             console.warn('⚠️ Falha ao enviar e-mail:', err.message);
         });
 
-        return res.status(200).json({ message: 'Email atualizado com sucesso', usuario: result });
+        return res.status(200).json({ message: 'Email atualizada com sucesso' });
     } catch (error) {
         console.error('Erro ao atualizar email:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });
@@ -83,7 +83,7 @@ export const novaSenhaUsuario = async (req, res) => {
         if (result.error) {
             return res.status(400).json({ error: result.error });
         }
-        return res.status(200).json({ message: 'Senha atualizada com sucesso', usuario: result });
+        return res.status(200).json({ message: 'Senha atualizada com sucesso' });
     } catch (error) {
         console.error('Erro ao atualizar senha:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });
