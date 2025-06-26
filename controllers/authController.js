@@ -7,7 +7,7 @@ export const loginAuth = async (req, res) => {
         if (result.error) {
             return res.status(400).json({ error: result.error });
         }
-        return res.status(201).json({ usuario: result });
+        return res.status(201).json({ result });
     } catch (error) {
         console.error('Erro ao criar usuário:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });

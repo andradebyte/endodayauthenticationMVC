@@ -27,7 +27,7 @@ export default class AuthModel {
             const isSenhaValida = await isPasswordValid(senha, usuario.senha);
 
             if (!isSenhaValida) {
-                return { error: 'Senha inválida.' };
+                return { error: 'Senha incorreta. Tente novamente ou clique em "Esqueceu a senha?" para escolher outra.' };
             }
 
             // Gerar token de autenticação
@@ -42,7 +42,6 @@ export default class AuthModel {
                 nome_completo: usuario.nome_completo,
                 email: usuario.email,
                 token,
-                mensagem: 'Logado com sucesso!'
             };
 
         } catch (error) {

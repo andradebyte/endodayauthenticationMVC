@@ -89,3 +89,22 @@ export const novaSenhaUsuario = async (req, res) => {
         return res.status(500).json({ error: 'Erro interno do servidor' });
     }
 }
+
+export const verificarEmail = async (req, res) => {
+    const { email } = req.params;
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email é obrigatório' });
+    }
+
+    try {
+
+        const usuario = await UsuarioModel.emailExiste(email);
+
+        return res.status(200).json({ exists: !!usuario });
+
+    } catch (error) {
+        console.error('Erro ao verificar email:', error);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+}

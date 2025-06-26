@@ -113,7 +113,7 @@ export default class UsuarioModel {
             if (result.affectedRows === 0) {
                 return { error: 'Usuário não encontrado ou senha já está em uso' };
             }
-            
+
             return { message: 'Senha atualizada com sucesso' };
 
         } catch (error) {
@@ -121,6 +121,24 @@ export default class UsuarioModel {
             return { error: 'Erro ao atualizar senha' };
         }
 
+    }
+
+    static async emailExiste(email) {
+        const query = 'SELECT * FROM usuarios WHERE email = ? LIMIT 1';
+
+        if (!email) {
+            return { error: 'Problema ao alterar senha.' };
+        }
+
+        try {
+            const [result] = await pool.execute(query, [email]);
+
+            return result.length > 0;
+
+        } catch (error) {
+            console.error('Erro ao verificar email:', error);
+            return { error: 'Erro ao verificar email' };
+        }
     }
 
 }
