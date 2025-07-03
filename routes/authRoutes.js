@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import { loginAuth, verificarTokenEmailAuth, verificarTokenSenhaAuth, criarTokenEmailAuth, criarTokenSenhaAuth } from '../controllers/authController.js';
 
 const router = express.Router();

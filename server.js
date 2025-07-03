@@ -1,8 +1,8 @@
-import usuarioRoutes from './routes/usuarioRoutes.js';
-import authRoutes from './routes/authRoutes.js';
-import questionarioRoutes from './routes/questionarioRoutes.js';
-import express from 'express';
-import cors from 'cors';
+import usuarioRoutes from "./routes/usuarioRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import questionarioRoutes from "./routes/questionarioRoutes.js";
+import express from "express";
+import cors from "cors";
 
 const PORT = 9323;
 
@@ -13,6 +13,10 @@ app.use(express.json());
 app.use('/questionario', questionarioRoutes);
 app.use('/usuarios', usuarioRoutes);
 app.use('/auth', authRoutes);
+
+app.get('/teste', (req, res) => {
+    res.send('Bem-vindo à API de Questionários!');
+});
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);

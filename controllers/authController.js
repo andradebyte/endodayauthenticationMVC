@@ -1,4 +1,4 @@
-import AuthModel from '../models/authModel.js';
+import AuthModel from "../models/AuthModel.js";
 
 export const loginAuth = async (req, res) => {
     const usuario = req.body;

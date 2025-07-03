@@ -11,4 +11,10 @@ const pool = mysql.createPool({
     connectionLimit: 10
 });
 
+if(!pool){
+    console.error("Database connection pool could not be created.");
+}else{
+    console.log("Database connection pool created successfully.");
+}
+
 export default pool;

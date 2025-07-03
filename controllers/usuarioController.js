@@ -1,5 +1,5 @@
-import UsuarioModel from '../models/UsuarioModel.js';
-import { mandarEmail } from '../utils/mandarEmail.js';
+import UsuarioModel from "../models/UsuarioModel.js";
+import { mandarEmail } from "../utils/mandarEmail.js";
 
 export const criarUsuario = async (req, res) => {
     const usuario = req.body;

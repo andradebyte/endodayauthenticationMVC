@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from "crypto";
 
 export function gerarSenha() {
     return new Promise((resolve, reject) => {

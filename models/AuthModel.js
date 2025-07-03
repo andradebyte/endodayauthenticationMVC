@@ -1,9 +1,9 @@
-import pool from '../config/db.js';
-import bcrypt from 'bcrypt';
-import { isPasswordValid } from '../utils/hash.js';
-import { generateToken } from '../utils/jwt.js';
-import { gerarSenha } from '../utils/geradorSenha.js';   // ou onde estiver
-import { mandarEmail } from '../utils/mandarEmail.js';       // seu util de e-mail
+import pool from "../config/db.js";
+import bcrypt from "bcrypt";
+import { isPasswordValid } from "../utils/hash.js";
+import { generateToken } from "../utils/jwt.js";
+import { gerarSenha } from "../utils/geradorSenha.js";   // ou onde estiver
+import { mandarEmail } from "../utils/mandarEmail.js";       // seu util de e-mail
 
 export default class AuthModel {
 

@@ -1,5 +1,5 @@
 // controllers/questionarioController.js
-import QuestionarioModel from '../models/QuestionarioModel.js';
+import QuestionarioModel from "../models/QuestionarioModel.js";
 
 export const questionario = async (req, res) => {
     const { caminho, dificuldade, usuario_id } = req.params;

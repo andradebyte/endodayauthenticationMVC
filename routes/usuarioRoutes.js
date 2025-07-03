@@ -1,6 +1,6 @@
-import express from 'express';
-import { criarUsuario, deletarUsuario, novoNomeUsuario, novoEmailUsuario, novaSenhaUsuario, verificarEmail } from '../controllers/usuarioController.js';
-import { autenticarJWT } from '../middleware/autenticarJWT.js';
+import express from "express";
+import { criarUsuario, deletarUsuario, novoNomeUsuario, novoEmailUsuario, novaSenhaUsuario, verificarEmail } from "../controllers/usuarioController.js";
+import { autenticarJWT } from "../middleware/autenticarJWT.js";
 
 const router = express.Router();
 

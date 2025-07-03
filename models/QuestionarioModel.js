@@ -1,5 +1,5 @@
-import pool from '../config/db.js';
-import conversorDificuldade from '../utils/conversorDificuldade.js';
+import pool from "../config/db.js";
+import conversorDificuldade from "../utils/conversorDificuldade.js";
 
 export default class QuestionarioModel {
 
