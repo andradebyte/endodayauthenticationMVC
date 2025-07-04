@@ -2,8 +2,8 @@ import pool from "../config/db.js";
 import bcrypt from "bcrypt";
 import { isPasswordValid } from "../utils/hash.js";
 import { generateToken } from "../utils/jwt.js";
-import { gerarSenha } from "../utils/geradorSenha.js";   // ou onde estiver
-import { mandarEmail } from "../utils/mandarEmail.js";       // seu util de e-mail
+import { gerarSenha } from "../utils/geradorSenha.js"; // ou onde estiver
+import { mandarEmail } from "../utils/mandarEmail.js"; // seu util de e-mail
 
 export default class AuthModel {
 
@@ -114,18 +114,24 @@ export default class AuthModel {
 
     static async criarTokenSenha(usuario) {
         const { email } = usuario;
-
+    
         const token = await gerarSenha();
-        const tokenCriptografado = await bcrypt.hash(token, 10); // Criptografa o token gerado
         const html = `<b>Token gerada: ${token}</b>`;
         const subject = 'Resetar Senha';
-
-        const expires_at = new Date(Date.now() + 5 * (60 * 1000)); // 5 minutos
-
+    
+        const expires_at = new Date(Date.now() + 60 * 60 * 1000) // 1 hora
+            .toISOString()
+            .slice(0, 19)
+            .replace('T', ' '); // formato compatível com DATETIME no MySQL
+    
         try {
-            // Atualiza o token e a data de expiração no banco de dados
-            await pool.execute('INSERT INTO senhas_token (email, token, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?, expires_at = ?', [email, tokenCriptografado, expires_at, tokenCriptografado, expires_at]);
-
+            await pool.execute(
+                `INSERT INTO senhas_token (email, token, expires_at)
+                 VALUES (?, ?, ?)
+                 ON DUPLICATE KEY UPDATE token = ?, expires_at = ?`,
+                [email, token, expires_at, token, expires_at]
+            );
+    
             await mandarEmail(email, subject, html);
             return { ok: true, mensagem: 'Email enviado com sucesso!' };
         } catch (error) {
@@ -134,32 +140,37 @@ export default class AuthModel {
         }
     }
 
-
     // Verifica o token de redefinição de senha
 
     static async verificarTokenSenha(usuario) {
         const { email, token } = usuario;
-
+    
+        if (!token) return { error: 'Token inválido ou expirado' };
+    
         try {
-            const [rows] = await pool.execute('SELECT token FROM senhas_token WHERE email = ? AND expires_at > NOW()', [email]);
-
+            const [rows] = await pool.execute(
+                'SELECT token FROM senhas_token WHERE email = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1',
+                [email]
+            );
+    
             if (rows.length === 0) {
-                return { error: 'Token inválido ou expirado' }
+                return { error: 'Token inválido ou expirado' };
             }
-
-            const tokenCriptografado = rows[0].token;
-            const isTokenValido = await bcrypt.compare(token, tokenCriptografado);
-
-            if (!isTokenValido) return { error: 'Token inválido ou expirado' };
-
-            // // Deleta o token após uso
-            // await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
-
-            // Se o token for válido, leve-o para a página de redefinição de senha
-            return { mensagem: 'Token válido', tokenValido: true }
+    
+            const tokenSalvo = rows[0].token;
+    
+            if (token !== tokenSalvo) {
+                return { error: 'Token inválido ou expirado' };
+            }
+    
+            // Deleta o token após uso
+            await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
+    
+            return { mensagem: 'Token válido', ok: true };
         } catch (error) {
             console.error(error);
             return { error: 'Erro no servidor, tente novamente.' };
         }
     }
+    
 }
