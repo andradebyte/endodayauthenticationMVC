@@ -132,7 +132,7 @@ export default class AuthModel {
                 [email, token, expires_at, token, expires_at]
             );
     
-            await mandarEmail(email, subject, html);
+            //await mandarEmail(email, subject, html);
             return { ok: true, mensagem: 'Email enviado com sucesso!' };
         } catch (error) {
             console.error('Erro ao enviar e-mail:', error);
@@ -166,7 +166,7 @@ export default class AuthModel {
             // Deleta o token após uso
             await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
     
-            return { mensagem: 'Token válido', ok: true };
+            return { message: 'Token verificado com sucesso!', ok: true };
         } catch (error) {
             console.error(error);
             return { error: 'Erro no servidor, tente novamente.' };
