@@ -22,7 +22,7 @@ export const criarTokenEmailAuth = async (req, res) => {
         if (result.error) {
             return res.status(400).json({ error: result.error });
         }
-        return res.status(201).json({ message: result });
+        return res.status(201).json({ message: result, ok: true });
     } catch (error) {
         console.error('Erro ao criar token de email:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });
@@ -36,7 +36,7 @@ export const verificarTokenEmailAuth = async (req, res) => {
         if (result.error) {
             return res.status(400).json({ error: result.error });
         }
-        return res.status(200).json({ message: 'Token de email verificado com sucesso', usuario: result });
+        return res.status(200).json({ message: result.message, ok: result.ok });
     } catch (error) {
         console.error('Erro ao verificar token de email:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });

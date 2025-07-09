@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/cadastrar', criarUsuario);
 router.delete('/:usuario_id', autenticarJWT, deletarUsuario);
 router.put('/nome', autenticarJWT, novoNomeUsuario);
-router.put('/email', novoEmailUsuario);
+router.put('/email', autenticarJWT, novoEmailUsuario);
 router.put('/senha', novaSenhaUsuario);
 router.get('/verificar-email/:email', verificarEmail);
 

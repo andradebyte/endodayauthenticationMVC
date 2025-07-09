@@ -70,7 +70,7 @@ export default class UsuarioModel {
 
     // Atualiza o email do usuário, verificando se o email já está em uso
 
-    static async novaEmail(usuario) {
+    static async novoEmail(usuario) {
         const { usuario_id, email } = usuario;
 
         const query = 'UPDATE usuarios SET email = ? WHERE usuario_id = ?';
@@ -87,7 +87,7 @@ export default class UsuarioModel {
                 return { error: 'Usuário não encontrado ou email já está em uso' };
             }
 
-            return { message: 'Email atualizado com sucesso' };
+            return { message: 'Email atualizado com sucesso', ok: true };
 
         } catch (error) {
             console.error('Erro ao atualizar email:', error);
@@ -114,7 +114,7 @@ export default class UsuarioModel {
                 return { error: 'Usuário não encontrado ou senha já está em uso' };
             }
 
-            return { message: 'Senha atualizada com sucesso' };
+            return { message: 'Senha atualizada com sucesso', ok: true };
 
         } catch (error) {
             console.error('Erro ao atualizar senha:', error);

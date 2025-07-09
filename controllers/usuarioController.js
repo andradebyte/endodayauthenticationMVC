@@ -56,7 +56,7 @@ export const novoNomeUsuario = async (req, res) => {
 export const novoEmailUsuario = async (req, res) => {
     const usuario = req.body;
     try {
-        const result = await UsuarioModel.novaEmail(usuario);
+        const result = await UsuarioModel.novoEmail(usuario);
 
         if (result.error) {
             return res.status(400).json({ error: result.error });
@@ -69,7 +69,7 @@ export const novoEmailUsuario = async (req, res) => {
             console.warn('⚠️ Falha ao enviar e-mail:', err.message);
         });
 
-        return res.status(200).json({ message: 'Email atualizada com sucesso' });
+        return res.status(200).json({ message: 'Email atualizada com sucesso', ok: result.ok });
     } catch (error) {
         console.error('Erro ao atualizar email:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });
@@ -83,7 +83,7 @@ export const novaSenhaUsuario = async (req, res) => {
         if (result.error) {
             return res.status(400).json({ error: result.error });
         }
-        return res.status(200).json({ message: 'Senha atualizada com sucesso' });
+        return res.status(200).json({ message: result.message, ok: result.ok });
     } catch (error) {
         console.error('Erro ao atualizar senha:', error);
         return res.status(500).json({ error: 'Erro interno do servidor' });

@@ -1,3 +1,4 @@
+import { autenticarJWT } from "./middleware/autenticarJWT.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import questionarioRoutes from "./routes/questionarioRoutes.js";
@@ -14,7 +15,7 @@ app.use('/questionario', questionarioRoutes);
 app.use('/usuarios', usuarioRoutes);
 app.use('/auth', authRoutes);
 
-app.get('/teste', (req, res) => {
+app.get('/teste',autenticarJWT, (req, res) => {
     res.send('Bem-vindo à API de Questionários!');
 });
 

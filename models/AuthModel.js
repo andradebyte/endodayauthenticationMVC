@@ -57,15 +57,15 @@ export default class AuthModel {
         const { novoEmail } = usuario;
 
         const token = await gerarSenha();
-        const tokenCriptografado = await bcrypt.hash(token, 10); // Criptografa o token gerado
+
         const html = `<b>Token gerada: ${token}</b>`;
         const subject = 'Alterar Email';
 
-        const expires_at = new Date(Date.now() + 30 * (60 * 1000)); // 5 minutos
+        const expires_at = new Date(Date.now() + 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
 
         try {
             // Atualiza o token e a data de expiração no banco de dados
-            await pool.execute('INSERT INTO emails_token (email, token, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?, expires_at = ?', [novoEmail, tokenCriptografado, expires_at, tokenCriptografado, expires_at]);
+            await pool.execute('INSERT INTO emails_token (email, token, expires_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE token = ?, expires_at = ?', [novoEmail, token, expires_at, token, expires_at]);
 
             await mandarEmail(novoEmail, subject, html);
             return 'Email enviado com sucesso!';
@@ -82,14 +82,14 @@ export default class AuthModel {
         const { novoEmail, token } = usuario;
 
         try {
-            const [rows] = await pool.execute('SELECT token FROM emails_token WHERE email = ? AND expires_at > NOW()', [novoEmail]);
+            const [rows] = await pool.execute('SELECT token FROM emails_token WHERE email = ? AND expires_at > NOW() ORDER BY expires_at DESC LIMIT 1', [novoEmail]);
 
             if (rows.length === 0) {
                 return { ok: false, error: 'Token inválido ou expirado' };
             }
 
-            const tokenCriptografado = rows[0].token;
-            const isTokenValido = await bcrypt.compare(token, tokenCriptografado);
+            const tokenBD = rows[0].token;
+            const isTokenValido = token === tokenBD ? true:false;
 
             if (rows.length === 0) {
                 return { error: 'Token inválido ou expirado' };
@@ -99,11 +99,11 @@ export default class AuthModel {
                 return { error: 'Token inválido ou expirado' };
             }
 
-            // Deleta o token após uso
-            // await pool.execute('DELETE FROM emails_token WHERE email = ?', [novoEmail]);
+
+            //await pool.execute('DELETE FROM emails_token WHERE email = ?', [novoEmail]);
 
             // Se o token for válido, leve-o para a página de redefinição de senha
-            return { mensagem: 'Token válido', ok: true, token: token };
+            return { message: 'Token válido', ok: true};
         } catch (error) {
             console.error(error);
             return { error: 'Erro no servidor, tente novamente.' };
@@ -132,7 +132,7 @@ export default class AuthModel {
                 [email, token, expires_at, token, expires_at]
             );
     
-            //await mandarEmail(email, subject, html);
+            await mandarEmail(email, subject, html);
             return { ok: true, mensagem: 'Email enviado com sucesso!' };
         } catch (error) {
             console.error('Erro ao enviar e-mail:', error);
@@ -164,7 +164,7 @@ export default class AuthModel {
             }
     
             // Deleta o token após uso
-            await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
+            //await pool.execute('DELETE FROM senhas_token WHERE email = ?', [email]);
     
             return { message: 'Token verificado com sucesso!', ok: true };
         } catch (error) {
