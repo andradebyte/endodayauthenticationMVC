@@ -1,8 +1,5 @@
 import { hashPassword } from "../utils/hash.js";
 import pool from "../config/db.js";
-import { mandarEmail } from "../utils/mandarEmail.js";
-//import { verifyToken } from '../utils/jwt.js';
-
 
 export default class UsuarioModel {
 

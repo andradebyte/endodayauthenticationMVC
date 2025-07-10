@@ -125,6 +125,12 @@ export default class AuthModel {
             .replace('T', ' '); // formato compatível com DATETIME no MySQL
     
         try {
+
+            const [userRows] = await pool.execute('SELECT * FROM usuarios WHERE email = ?', [email]);
+            if (userRows.length === 0) {
+                return { error: 'Email não cadastrado.' };
+            }
+
             await pool.execute(
                 `INSERT INTO senhas_token (email, token, expires_at)
                  VALUES (?, ?, ?)

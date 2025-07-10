@@ -64,7 +64,7 @@ export const novoEmailUsuario = async (req, res) => {
 
         // Enviar email de confirmação
         await mandarEmail(usuario.email, 'Email redefinido com sucesso!',
-            `<h1>Email redefinido com sucesso!</h1><p>Olá, seu email foi redefinido com sucesso!</p>`
+            `<h1>Email redefinido com sucesso!</h1><p>Olá, seu email foi redefinido.</p>`
         ).catch((err) => {
             console.warn('⚠️ Falha ao enviar e-mail:', err.message);
         });
@@ -83,6 +83,13 @@ export const novaSenhaUsuario = async (req, res) => {
         if (result.error) {
             return res.status(400).json({ error: result.error });
         }
+
+        await mandarEmail(usuario.email, 'Senha redefinida com sucesso!',
+            `<h1>Senha redefinida com sucesso!</h1><p>Olá, sua senha foi redefinida .</p>`
+        ).catch((err) => {
+            console.warn('⚠️ Falha ao enviar e-mail:', err.message);
+        });
+
         return res.status(200).json({ message: result.message, ok: result.ok });
     } catch (error) {
         console.error('Erro ao atualizar senha:', error);
