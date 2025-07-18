@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo ao Endoday</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F9FDFF;
+      font-family: 'Manrope', sans-serif;
+      color: #1E1F20;
+    }
+
+    .container {
+      padding: 24px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    img {
+      width: 240px;
+      height: 88px;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-weight: 300;
+      margin-top: 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 16px;
+      }
+
+      img {
+        width: 136px;
+        height: auto;
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://endoday-app.s3.sa-east-1.amazonaws.com/endodaypublicimages/logoendoday.png" alt="Ícone do Endoday">
+    <h3>Seja bem-vindo(a) ao EndoDay!</h3>
+    <p>Olá {{nome}}!</p>
+    <p>Seja bem-vindo(a) ao EndoDay. Estamos muito felizes em ter você com a gente para facilitar sua jornada na Endodontia.</p>
+    <p>Explore nossos checklists, flashcards e questionários para aprofundar seus conhecimentos e se preparar para os desafios clínicos.</p>
+    <br>
+    <p>Bons estudos!</p>
+  </div>
+</body>
+</html>

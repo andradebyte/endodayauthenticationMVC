@@ -4,6 +4,7 @@ import { isPasswordValid } from "../utils/hash.js";
 import { generateToken } from "../utils/jwt.js";
 import { gerarSenha } from "../utils/geradorSenha.js"; // ou onde estiver
 import { mandarEmail } from "../utils/mandarEmail.js"; // seu util de e-mail
+import { carregarHTML } from "../utils/carregarHtml.js";
 
 export default class AuthModel {
 
@@ -58,7 +59,9 @@ export default class AuthModel {
 
         const token = await gerarSenha();
 
-        const html = `<b>Token gerada: ${token}</b>`;
+        // const html = `<b>Token gerada: ${token}</b>`;
+        const html = await carregarHTML('./utils/email/codigoemail.html', { codigo: token });
+
         const subject = 'Alterar Email';
 
         const expires_at = new Date(Date.now() + 60 * 60 * 1000).toISOString().slice(0, 19).replace('T', ' ');
@@ -116,7 +119,10 @@ export default class AuthModel {
         const { email } = usuario;
     
         const token = await gerarSenha();
-        const html = `<b>Token gerada: ${token}</b>`;
+        // const html = `<b>Token gerada: ${token}</b>`;
+
+        const html = await carregarHTML('./utils/email/codigosenha.html', { codigo: token });
+
         const subject = 'Resetar Senha';
     
         const expires_at = new Date(Date.now() + 60 * 60 * 1000) // 1 hora

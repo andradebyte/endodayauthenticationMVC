@@ -1,8 +1,10 @@
 import UsuarioModel from "../models/UsuarioModel.js";
 import { mandarEmail } from "../utils/mandarEmail.js";
+import { carregarHTML } from "../utils/carregarHtml.js";
 
 export const criarUsuario = async (req, res) => {
     const usuario = req.body;
+
     try {
         const result = await UsuarioModel.criar(usuario);
 
@@ -10,9 +12,12 @@ export const criarUsuario = async (req, res) => {
             return res.status(400).json({ error: result.error });
         }
 
+        const html = await carregarHTML('utils/email/cadastro.html', {
+            nome: usuario.nome_completo
+        });
+
         // Enviar email de confirmação
-        await mandarEmail(usuario.email, 'Cadastro realizado com sucesso!',
-            `<h1>Bem-vindo ao Endoday!</h1><p>Olá ${usuario.nome_completo}, seu cadastro foi um sucesso!</p>`
+        await mandarEmail(usuario.email, 'Cadastro realizado com sucesso!',html
         ).catch((err) => {
             console.warn('⚠️ Falha ao enviar e-mail:', err.message);
         });
@@ -62,9 +67,11 @@ export const novoEmailUsuario = async (req, res) => {
             return res.status(400).json({ error: result.error });
         }
 
+        const html = await carregarHTML('utils/email/alteracaoemail.html');
+
+
         // Enviar email de confirmação
-        await mandarEmail(usuario.email, 'Email redefinido com sucesso!',
-            `<h1>Email redefinido com sucesso!</h1><p>Olá, seu email foi redefinido.</p>`
+        await mandarEmail(usuario.email, 'Email redefinido com sucesso!',html
         ).catch((err) => {
             console.warn('⚠️ Falha ao enviar e-mail:', err.message);
         });
@@ -84,8 +91,9 @@ export const novaSenhaUsuario = async (req, res) => {
             return res.status(400).json({ error: result.error });
         }
 
-        await mandarEmail(usuario.email, 'Senha redefinida com sucesso!',
-            `<h1>Senha redefinida com sucesso!</h1><p>Olá, sua senha foi redefinida .</p>`
+        const html = await carregarHTML('utils/email/alteracaosenha.html');
+
+        await mandarEmail(usuario.email, 'Senha redefinida com sucesso!', html
         ).catch((err) => {
             console.warn('⚠️ Falha ao enviar e-mail:', err.message);
         });
