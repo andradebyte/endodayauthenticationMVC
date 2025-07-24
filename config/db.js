@@ -11,6 +11,8 @@ const pool = mysql.createPool({
     connectionLimit: 10
 });
 
+console.log("Toma aqui meu host! ", process.env.DB_HOST);
+
 if(!pool){
     console.error("Database connection pool could not be created.");
 }else{
