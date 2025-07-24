@@ -70,3 +70,7 @@ export const verificarTokenSenhaAuth = async (req, res) => {
         return res.status(500).json({ error: 'Erro interno do servidor' });
     }
 }
+
+export const validarToken = (req, res) => {
+    res.sendStatus(200);
+};

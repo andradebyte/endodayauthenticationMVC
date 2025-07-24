@@ -17,8 +17,12 @@ app.use('/usuarios', usuarioRoutes);
 app.use('/auth', authRoutes);
 app.use('/verificacao-dados', verificacaoDadosRoutes);
 
-app.get('/teste',autenticarJWT, (req, res) => {
+app.get('/testeJWT',autenticarJWT, (req, res) => {
     res.send('Bem-vindo à API de Questionários!');
+});
+
+app.get('/teste', (req, res) => {
+    res.send('Bem-vindo!');
 });
 
 app.listen(PORT, () => {

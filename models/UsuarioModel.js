@@ -20,6 +20,7 @@ export default class UsuarioModel {
                 return { error: 'Erro ao cadastrar usuário' };
             }
             return { message: 'Usuário cadastrado com sucesso' };
+
         } catch (error) {
             console.error('Erro ao cadastrar usuário:', error);
             return { error: 'Erro ao cadastrar usuário' };
