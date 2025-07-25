@@ -26,6 +26,11 @@ export async function mandarEmail(email, subject, html) {
         html: `${html}` // se desejar enviar em HTML
     };
 
+    console.log(process.env.MAIL_HOST);
+    console.log(process.env.MAIL_USER);
+    console.log(process.env.MAIL_PASSWORD);
+
+
     // Envie o e-mail
     let info = await transporter.sendMail(mailOptions);
     console.log('E-mail enviado: ' + info.response);
