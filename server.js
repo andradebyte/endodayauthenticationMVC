@@ -5,6 +5,7 @@ import questionarioRoutes from "./routes/questionarioRoutes.js";
 import verificacaoDadosRoutes from "./routes/verificacaoDadosRoutes.js";
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 
 const PORT = 9323;
 
@@ -27,4 +28,8 @@ app.get('/teste', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+    console.log(process.env.MAIL_HOST);
+    console.log(process.env.MAIL_USER);
+    console.log(process.env.MAIL_PASSWORD);
+
 });
